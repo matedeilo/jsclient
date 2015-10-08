@@ -1,5 +1,5 @@
 import keyMirror from 'fbjs/lib/keyMirror';
 
 export default keyMirror({
-    LOGIN: null,
+    LOGIN_USER: null,
 });

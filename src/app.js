@@ -1,32 +1,26 @@
 import React from 'react';
-import Router from 'react-router';
-import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+import Router, { Route } from 'react-router';
+import RouterContainer from './core/RouterContainer';
 
-import LoginHandler from './components/Login.js';
-
-let App = React.createClass({
-    render() {
-    return (
-        <div className="nav">
-        <Link to="app">Home</Link>
-        <Link to="login"> Login</Link>
-
-        {/* this is the importTant part */}
-        <RouteHandler/>
-            <div class="footer">
-                <Link to="login"> Login</Link>
-            </div>
-        </div>
-);
-}
-});
+import App from './components/App';
+import Login from './components/Login';
+import Home from './components/Home';
 
 let routes = (
-    <Route name="app" path="/" handler={App}>
-    <Route name="login" path="/login" handler={LoginHandler}/>
+    <Route handler={App}>
+        <Route name="home" path="/" handler={Home}/>
+        <Route name="login" path="/login" handler={Login}/>
     </Route>
 );
 
-Router.run(routes, function (Handler) {
-    React.render(<Handler/>, document.body);
+let router = Router.create({routes});
+RouterContainer.set(router);
+
+let jwt = localStorage.getItem('jwt');
+if (jwt) {
+    // LoginActions.loginUser(jwt)
+}
+
+router.run(function (Handler) {
+    React.render(<Handler/>, document.getElementById('content'));
 });
